@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "VehicleVibes rest api backend with Express, Sequelize & MySQL",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Baaasty",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src",
+    "start": "node src",
+    "lint": "eslint --ext .js --ignore-path ../.gitignore --fix src",
+    "format": "prettier . --write"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -16,5 +19,11 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.3",
     "sequelize": "^6.35.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0"
   }
 }
