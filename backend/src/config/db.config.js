@@ -7,6 +7,7 @@ module.exports = {
     password: process.env.DB_DEV_PASSWORD || null,
     database: process.env.DB_DEV_NAME || 'vehiclevibes_dev',
     host: process.env.DB_DEV_HOST || 'localhost',
+    port: process.env.DB_DEV_PORT || 3306,
     dialect: 'mysql',
     pool: {
       max: parseInt(process.env.DB_DEV_POOL_MAX) || 5,
@@ -20,6 +21,7 @@ module.exports = {
     password: process.env.DB_TEST_PASSWORD || null,
     database: process.env.DB_TEST_NAME || 'vehiclevibes_test',
     host: process.env.DB_TEST_HOST || 'localhost',
+    port: process.env.DB_TEST_PORT || 3306,
     dialect: 'mysql',
     pool: {
       max: parseInt(process.env.DB_TEST_POOL_MAX) || 5,
@@ -33,6 +35,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_NAME || 'vehiclevibes',
     host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
     pool: {
       max: parseInt(process.env.DB_POOL_MAX) || 5,
