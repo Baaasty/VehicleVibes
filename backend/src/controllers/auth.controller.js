@@ -1,12 +1,12 @@
-const db = require("../models");
-const config = require("../config/auth.config");
+const db = require('../models');
+const config = require('../config/auth.config');
 const User = db.User;
 const Role = db.Role;
 
 const Op = db.sequelize.Op;
 
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {
   // Save User to Database
@@ -27,10 +27,10 @@ exports.register = async (req, res) => {
       });
 
       const result = user.setRoles(roles);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) res.send({ message: 'User registered successfully!' });
     } else {
       const result = user.setRoles([1]);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) res.send({ message: 'User registered successfully!' });
     }
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -46,19 +46,19 @@ exports.login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User Not found." });
+      return res.status(404).send({ message: 'User Not found.' });
     }
 
     const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
     if (!passwordIsValid) {
       return res.status(401).send({
-        message: "Invalid Password!",
+        message: 'Invalid Password!',
       });
     }
 
     const token = jwt.sign({ id: user.id }, config.secret, {
-      algorithm: "HS256",
+      algorithm: 'HS256',
       allowInsecureKeySizes: true,
       expiresIn: 86400, // 24 hours
     });
@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
     let authorities = [];
     const roles = await user.getRoles();
     for (let i = 0; i < roles.length; i++) {
-      authorities.push("ROLE_" + roles[i].name.toUpperCase());
+      authorities.push('ROLE_' + roles[i].name.toUpperCase());
     }
 
     return res.status(200).send({

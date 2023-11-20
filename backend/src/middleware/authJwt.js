@@ -1,20 +1,20 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-const db = require("../models");
+const jwt = require('jsonwebtoken');
+const config = require('../config/auth.config.js');
+const db = require('../models');
 const User = db.User;
 
-verifyToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
     return res.status(403).send({
-      message: "No token provided!",
+      message: 'No token provided!',
     });
   }
 
-  if (!authHeader.startsWith("Bearer ")) {
+  if (!authHeader.startsWith('Bearer ')) {
     return res.status(403).send({
-      message: "Invalid token format!",
+      message: 'Invalid token format!',
     });
   }
 
@@ -22,14 +22,14 @@ verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(403).send({
-      message: "No token provided!",
+      message: 'No token provided!',
     });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
-        message: "Unauthorized!",
+        message: 'Unauthorized!',
       });
     }
     req.userId = decoded.id;
@@ -37,69 +37,69 @@ verifyToken = (req, res, next) => {
   });
 };
 
-isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "admin") {
+      if (roles[i].name === 'admin') {
         return next();
       }
     }
 
     return res.status(403).send({
-      message: "Require Admin Role!",
+      message: 'Require Admin Role!',
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate User role!",
+      message: 'Unable to validate User role!',
     });
   }
 };
 
-isModerator = async (req, res, next) => {
+const isModerator = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "moderator") {
+      if (roles[i].name === 'moderator') {
         return next();
       }
     }
 
     return res.status(403).send({
-      message: "Require Moderator Role!",
+      message: 'Require Moderator Role!',
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Moderator role!",
+      message: 'Unable to validate Moderator role!',
     });
   }
 };
 
-isModeratorOrAdmin = async (req, res, next) => {
+const isModeratorOrAdmin = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.userId);
     const roles = await user.getRoles();
 
     for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === "moderator") {
+      if (roles[i].name === 'moderator') {
         return next();
       }
 
-      if (roles[i].name === "admin") {
+      if (roles[i].name === 'admin') {
         return next();
       }
     }
 
     return res.status(403).send({
-      message: "Require Moderator or Admin Role!",
+      message: 'Require Moderator or Admin Role!',
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Moderator or Admin role!",
+      message: 'Unable to validate Moderator or Admin role!',
     });
   }
 };

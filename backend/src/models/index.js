@@ -1,35 +1,22 @@
-"use strict";
-require("dotenv").config(); // Load environment variables from a .env file if present
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const process = require("process");
+'use strict';
+require('dotenv').config(); // Load environment variables from a .env file if present
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const process = require('process');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "production";
-const config = require(__dirname + "/../config/db.config.js")[env];
+const env = process.env.NODE_ENV || 'production';
+const config = require(__dirname + '/../config/db.config.js')[env];
 const db = {};
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-);
+const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 fs.readdirSync(__dirname)
   .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 &&
-      file !== basename &&
-      file.slice(-3) === ".js" &&
-      file.indexOf(".test.js") === -1
-    );
+    return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js' && file.indexOf('.test.js') === -1;
   })
   .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
@@ -41,6 +28,6 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 
-db.ROLES = ["user", "moderator", "admin"];
+db.ROLES = ['user', 'moderator', 'admin'];
 
 module.exports = db;

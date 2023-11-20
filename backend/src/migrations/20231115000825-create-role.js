@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable("roles", {
+    await queryInterface.createTable('roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,26 +23,26 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("user_roles", {
+    await queryInterface.createTable('user_roles', {
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "roles",
-          key: "id",
+          model: 'roles',
+          key: 'id',
         },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -55,8 +55,8 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface, DataTypes) => {
-    await queryInterface.dropTable("user_roles");
-    await queryInterface.dropTable("roles");
+  down: async (queryInterface) => {
+    await queryInterface.dropTable('user_roles');
+    await queryInterface.dropTable('roles');
   },
 };
