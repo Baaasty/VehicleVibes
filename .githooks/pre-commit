@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Get the root directory of the Git repository
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+# Function to run linting and formatting for a specific folder
+run_lint_and_format() {
+    folder=$1
+    cd "$ROOT_DIR/$folder" || exit 1
+    echo "Running linting in $folder..."
+    npm run lint
+    if [ $? -ne 0 ]; then
+        echo "Linting in $folder failed. Please fix the issues before committing."
+        exit 1
+    fi
+    echo "Linting in $folder passed."
+
+    echo "Running formatting in $folder..."
+    npm run format
+    if [ $? -ne 0 ]; then
+        echo "Formatting in $folder failed. Please fix the formatting issues before committing."
+        exit 1
+    fi
+    echo "Formatting in $folder passed."
+
+    cd - || exit 1
+}
+
+# Run linting and formatting for frontend
+run_lint_and_format "frontend"
+
+# Run linting and formatting for backend
+run_lint_and_format "backend"
+
+git add .
+
+# If all linting and formatting passes, allow the commit
+echo "Linting and formatting passed. Committing..."
+exit 0
