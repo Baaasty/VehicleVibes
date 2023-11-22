@@ -3,7 +3,7 @@ const config = require('../config/auth.config');
 const User = db.User;
 const Role = db.Role;
 
-const Op = db.sequelize.Op;
+const { Op } = require('sequelize');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        username: req.body.username,
+        [Op.or]: [{ username: req.body.username }, { email: req.body.username }],
       },
     });
 
