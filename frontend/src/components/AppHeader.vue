@@ -7,10 +7,15 @@
       </RouterLink>
       <FontAwesomeIcon icon="bars" @click="toggleMenu" />
       <nav :class="showMobileMenu ? 'opened-menu' : 'closed-menu'">
-        <ul class="nav-routes">
+        <ul v-if="!currentUser" class="nav-routes">
           <RouterLink to="/what-is-vehiclevibes" @click="closeMenu"> What is VehicleVibes? </RouterLink>
           <RouterLink to="/faq" @click="closeMenu"> FAQ </RouterLink>
           <RouterLink to="/about" @click="closeMenu"> About </RouterLink>
+        </ul>
+        <ul v-else class="nav-routes">
+          <RouterLink to="/swipe" @click="closeMenu"> Swipe </RouterLink>
+          <RouterLink to="/matches" @click="closeMenu"> Matches </RouterLink>
+          <RouterLink to="/settings" @click="closeMenu"> Settings </RouterLink>
         </ul>
         <ul v-if="!currentUser" class="nav-account">
           <RouterLink to="/login" @click="closeMenu"> Login </RouterLink>
@@ -58,6 +63,16 @@ header {
   background-color: #fff8d3;
   height: 100%;
 
+  a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.1s ease;
+
+    &:hover {
+      color: #b3a24c;
+    }
+  }
+
   .nav-bar {
     display: flex;
     align-items: center;
@@ -93,6 +108,7 @@ header {
         align-items: center;
         gap: 16px;
         list-style: none;
+        color: #666;
       }
 
       .nav-account {
@@ -108,6 +124,7 @@ header {
           border-radius: 8px;
           border: 1px solid #e6d061;
           background-color: #ffe76c;
+          transition: background-color 0.1s ease;
         }
 
         a:hover {

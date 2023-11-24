@@ -10,6 +10,6 @@ import RegisterPanel from '../components/RegisterPanel.vue';
 
 <style scoped>
 .register-panel {
-  margin: 10% auto 0;
+  margin: 10vh auto 20vh;
 }
 </style>

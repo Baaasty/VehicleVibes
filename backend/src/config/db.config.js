@@ -5,7 +5,7 @@ module.exports = {
   development: {
     username: process.env.DB_DEV_USERNAME || 'root',
     password: process.env.DB_DEV_PASSWORD || null,
-    database: process.env.DB_DEV_NAME || 'vehiclevibes_dev',
+    database: process.env.DB_DEV_DATABASE || 'vehiclevibes_dev',
     host: process.env.DB_DEV_HOST || 'localhost',
     port: process.env.DB_DEV_PORT || 3306,
     dialect: 'mysql',
@@ -19,7 +19,7 @@ module.exports = {
   test: {
     username: process.env.DB_TEST_USERNAME || 'root',
     password: process.env.DB_TEST_PASSWORD || null,
-    database: process.env.DB_TEST_NAME || 'vehiclevibes_test',
+    database: process.env.DB_TEST_DATABASE || 'vehiclevibes_test',
     host: process.env.DB_TEST_HOST || 'localhost',
     port: process.env.DB_TEST_PORT || 3306,
     dialect: 'mysql',
@@ -33,7 +33,7 @@ module.exports = {
   production: {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_NAME || 'vehiclevibes',
+    database: process.env.DB_DATABASE || 'vehiclevibes',
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
     dialect: 'mysql',

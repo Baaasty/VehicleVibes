@@ -10,6 +10,6 @@ import LoginPanel from '../components/LoginPanel.vue';
 
 <style scoped>
 .login-panel {
-  margin: 10% auto 0;
+  margin: 10vh auto 20vh;
 }
 </style>
