@@ -1,3 +1,4 @@
+import VueCookies from 'vue-cookies';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/v1/auth/';
@@ -9,17 +10,15 @@ class AuthService {
         username: user.username,
         password: user.password,
       })
-      .then((response) => {
-        if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
+      .then((res) => {
+        if (res.data.accessToken) VueCookies.set('user', res.data);
 
-        return response.data;
+        return res.data;
       });
   }
 
   logout() {
-    localStorage.removeItem('user');
+    VueCookies.remove('user');
   }
 
   register(user) {
@@ -27,6 +26,13 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password,
+    });
+  }
+
+  verify(email, token) {
+    return axios.put(API_URL + 'verify', {
+      email,
+      token,
     });
   }
 }

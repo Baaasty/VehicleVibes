@@ -14,4 +14,6 @@ module.exports = function (app) {
   );
 
   app.post('/api/v1/auth/login', controller.login);
+
+  app.put('/api/v1/auth/verify', controller.verify);
 };

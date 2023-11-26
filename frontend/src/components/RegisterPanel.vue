@@ -1,28 +1,31 @@
 <template>
-  <Form :validation-schema="schema" class="register-form" @submit="handleRegister">
-    <div v-if="!successful">
-      <label for="username">Username</label>
-      <div class="input-container">
-        <Field id="username" name="username" type="text" autocomplete="off" />
-        <ErrorMessage name="username" class="error-message tiny" />
-      </div>
+  <div>
+    <Form :validation-schema="schema" class="register-form" @submit="handleRegister">
+      <div v-if="!successful">
+        <label for="username">Username</label>
+        <div class="input-container">
+          <Field id="username" name="username" type="text" autocomplete="off" />
+          <ErrorMessage name="username" class="error-message tiny" />
+        </div>
 
-      <label for="email">Email</label>
-      <div class="input-container">
-        <Field id="email" name="email" type="text" autocomplete="off" />
-        <ErrorMessage name="email" class="error-message tiny" />
-      </div>
+        <label for="email">Email</label>
+        <div class="input-container">
+          <Field id="email" name="email" type="text" autocomplete="off" />
+          <ErrorMessage name="email" class="error-message tiny" />
+        </div>
 
-      <label for="password">Password</label>
-      <div class="input-container">
-        <Field id="password" name="password" type="password" autocomplete="off" />
-        <ErrorMessage name="password" class="error-message tiny" />
-      </div>
+        <label for="password">Password</label>
+        <div class="input-container">
+          <Field id="password" name="password" type="password" autocomplete="off" />
+          <ErrorMessage name="password" class="error-message tiny" />
+        </div>
 
-      <button type="submit" :disabled="loading">Register</button>
-    </div>
-    <p v-if="message" :class="successful ? 'success-message' : 'error-message'">{{ message }}</p>
-  </Form>
+        <button type="submit" :disabled="loading">Register</button>
+      </div>
+      <p v-if="message" :class="successful ? 'success-message' : 'error-message'">{{ message }}</p>
+    </Form>
+    <p v-if="seconds != -1" class="redirect-message">You will be redirected in {{ seconds }} seconds.</p>
+  </div>
 </template>
 
 <script setup>
@@ -56,6 +59,7 @@ const schema = yup.object().shape({
 const successful = ref(false);
 const loading = ref(false);
 const message = ref('');
+let seconds = ref(-1);
 
 const loggedIn = computed(() => {
   return store.state.auth.status.loggedIn;
@@ -73,22 +77,42 @@ const handleRegister = (user) => {
   loading.value = true;
 
   store.dispatch('auth/register', user).then(
-    (data) => {
-      message.value = data.message;
+    (res) => {
+      message.value = res.data.message;
       successful.value = true;
       loading.value = false;
+
+      startCountdown(user.email);
     },
-    (error) => {
-      message.value =
-        (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    (err) => {
+      message.value = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
       successful.value = false;
       loading.value = false;
     }
   );
 };
+
+const startCountdown = (email) => {
+  seconds.value = 3;
+
+  const countdown = setInterval(() => {
+    seconds.value--;
+    if (seconds.value === 0) {
+      clearInterval(countdown);
+      router.push({
+        path: '/verify',
+        query: { email },
+      });
+    }
+  }, 1000);
+};
 </script>
 
 <style lang="scss" scoped>
+.redirect-message {
+  text-align: center;
+}
+
 .register-form {
   max-width: 300px;
   margin: 0 auto;
@@ -155,7 +179,7 @@ const handleRegister = (user) => {
 
 /* Adjustments for small screens */
 @media screen and (max-width: 600px) {
-  .login-form {
+  .register-form {
     max-width: none;
     width: 80%;
   }

@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import VueCookies from 'vue-cookies';
 
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
+import VerifyView from '@/views/VerifyView.vue';
 import WhatIsView from '@/views/WhatIsView.vue';
 import FAQView from '@/views/FAQView.vue';
 import AboutView from '@/views/AboutView.vue';
@@ -26,6 +28,13 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView,
+      meta: { roles: [] },
+    },
+    {
+      path: '/verify',
+      name: 'verify',
+      component: VerifyView,
+      props: (route) => ({ email: route.query.email, token: route.query.token }),
       meta: { roles: [] },
     },
     {
@@ -68,26 +77,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const user = localStorage.getItem('user');
+  const user = VueCookies.get('user');
+  const requiredRoles = to.meta.roles;
 
-  if (to.meta.roles.length == 0) {
+  if (requiredRoles.length === 0 || (user && requiredRoles.some((role) => user.roles.includes(role)))) {
     next();
-    return;
-  }
-
-  let needLogin = true;
-
-  if (user != null)
-    to.meta.roles.some((role) => {
-      const userRoles = JSON.parse(user).roles;
-
-      if (userRoles.includes(role)) needLogin = false;
-    });
-
-  if (needLogin) {
-    next('/login');
   } else {
-    next();
+    next('/login');
   }
 });
 

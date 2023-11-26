@@ -53,10 +53,9 @@ const handleLogin = (user) => {
     () => {
       router.push('/');
     },
-    (error) => {
+    (err) => {
       loading.value = false;
-      message.value =
-        (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+      message.value = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
     }
   );
 };

@@ -1,6 +1,7 @@
+import VueCookies from 'vue-cookies';
 import AuthService from '../services/auth.service';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = VueCookies.get('user');
 const initialState = user ? { status: { loggedIn: true }, user } : { status: { loggedIn: false }, user: null };
 
 export const auth = {
@@ -13,9 +14,9 @@ export const auth = {
           commit('loginSuccess', user);
           return Promise.resolve(user);
         },
-        (error) => {
+        (err) => {
           commit('loginFailure');
-          return Promise.reject(error);
+          return Promise.reject(err);
         }
       );
     },
@@ -25,13 +26,13 @@ export const auth = {
     },
     register({ commit }, user) {
       return AuthService.register(user).then(
-        (response) => {
+        (res) => {
           commit('registerSuccess');
-          return Promise.resolve(response.data);
+          return Promise.resolve(res);
         },
-        (error) => {
+        (err) => {
           commit('registerFailure');
-          return Promise.reject(error);
+          return Promise.reject(err);
         }
       );
     },

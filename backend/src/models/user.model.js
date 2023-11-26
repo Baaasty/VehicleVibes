@@ -17,10 +17,25 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         type: DataTypes.STRING,
+        validate: {
+          isEmail: true,
+        },
       },
       password: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      verified: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      verficationToken: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        validate: {
+          len: [6, 6],
+        },
       },
     },
     {
