@@ -22,6 +22,7 @@
           <RouterLink to="/register" @click="closeMenu"> Register </RouterLink>
         </ul>
         <ul v-else class="nav-account">
+          <RouterLink to="/profile"> Profile </RouterLink>
           <a @click="logout"> Logout </a>
         </ul>
       </nav>

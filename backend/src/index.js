@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 require('./routes/auth.routes')(app);
+require('./routes/profile.routes')(app);
 require('./routes/test.routes')(app);
 
 // set port, listen for requests

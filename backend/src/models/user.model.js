@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       this.belongsToMany(models.Role, { through: 'user_roles' });
+      this.belongsTo(models.Profile);
     }
   }
   User.init(

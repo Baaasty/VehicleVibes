@@ -37,6 +37,9 @@ module.exports = {
           len: [6, 6],
         },
       },
+      profileId: {
+        type: DataTypes.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -45,6 +48,18 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE,
       },
+    });
+
+    await queryInterface.addConstraint('users', {
+      fields: ['profileId'],
+      type: 'foreign key',
+      name: 'users_profile_association',
+      references: {
+        table: 'profiles',
+        field: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     });
   },
 

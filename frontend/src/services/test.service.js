@@ -1,9 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://localhost:8080/api/v1/test/';
+const API_URL = 'http://localhost:5000/api/v1/test/';
 
-class UserService {
+class TestService {
   getPublicContent() {
     return axios.get(API_URL + 'all');
   }
@@ -21,4 +21,4 @@ class UserService {
   }
 }
 
-export default new UserService();
+export default new TestService();
