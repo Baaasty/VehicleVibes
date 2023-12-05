@@ -22,6 +22,10 @@
           <RouterLink to="/register" @click="closeMenu"> Register </RouterLink>
         </ul>
         <ul v-else class="nav-account">
+          <RouterLink to="/profile" class="account-profile" @click="closeMenu">
+            <img src="../assets/user-picture.png" alt="Profilepicture" />
+            <p>{{ currentUser.username }}</p>
+          </RouterLink>
           <a @click="logout"> Logout </a>
         </ul>
       </nav>
@@ -116,19 +120,40 @@ header {
         flex: 1;
         justify-content: flex-end;
         align-items: center;
-        gap: 12px;
+        gap: 16px;
         list-style: none;
 
-        a {
-          padding: 8px 16px;
+        > a {
+          display: flex;
+          align-items: center;
+          padding: 0 16px;
+          height: 36px;
           border-radius: 8px;
           border: 1px solid #e6d061;
           background-color: #ffe76c;
           transition: background-color 0.1s ease;
         }
 
-        a:hover {
+        > a:hover {
           background-color: #e6d061;
+        }
+
+        .account-profile {
+          display: flex;
+          gap: 12px;
+          border-radius: 36px;
+          margin: 0;
+          padding: 0;
+
+          img {
+            height: 36px;
+            border-radius: 50%;
+          }
+
+          p {
+            font-weight: 600;
+            margin: 0 12px 0 0;
+          }
         }
       }
     }

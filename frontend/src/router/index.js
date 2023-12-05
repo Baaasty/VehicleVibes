@@ -56,6 +56,12 @@ const router = createRouter({
       meta: { roles: [] },
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/ProfileView.vue'),
+      meta: { roles: ['ROLE_USER', 'ROLE_MODERATOR', 'ROLE_ADMIN'] },
+    },
+    {
       path: '/swipe',
       name: 'swipe',
       component: () => import('@/views/SwipeView.vue'),
