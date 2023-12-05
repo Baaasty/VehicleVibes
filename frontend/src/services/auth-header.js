@@ -1,5 +1,7 @@
+import VueCookies from 'vue-cookies';
+
 export default function authHeader() {
-  let user = JSON.parse(localStorage.getItem('user'));
+  const user = VueCookies.get('user');
 
   if (user && user.accessToken) {
     return { Authorization: 'Bearer ' + user.accessToken };
