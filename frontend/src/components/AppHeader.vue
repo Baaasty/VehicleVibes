@@ -26,7 +26,6 @@
             <img src="../assets/user-picture.png" alt="Profilepicture" />
             <p>{{ currentUser.username }}</p>
           </RouterLink>
-          <RouterLink to="/profile"> Profile </RouterLink>
           <a @click="logout"> Logout </a>
         </ul>
       </nav>

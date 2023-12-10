@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Profile.init(
     {
-      firstName: DataTypes.STRING,
-      age: DataTypes.INTEGER,
+      firstname: DataTypes.STRING,
+      birthdate: DataTypes.DATE,
       bio: DataTypes.STRING,
     },
     {

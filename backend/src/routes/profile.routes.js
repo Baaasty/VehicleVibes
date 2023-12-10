@@ -8,4 +8,6 @@ module.exports = function (app) {
   });
 
   app.get('/api/v1/profile', [authJwt.verifyToken], controller.profile);
+
+  app.post('/api/v1/profile', [authJwt.verifyToken], controller.updateProfile);
 };

@@ -7,6 +7,10 @@ class ProfileService {
   getProfile() {
     return axios.get(API_URL, { headers: authHeader() });
   }
+
+  saveProfile(data) {
+    return axios.post(API_URL, data, { headers: authHeader() });
+  }
 }
 
 export default new ProfileService();

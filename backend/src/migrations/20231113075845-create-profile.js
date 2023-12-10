@@ -8,8 +8,8 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      firstName: DataTypes.STRING,
-      age: DataTypes.INTEGER,
+      firstname: DataTypes.STRING,
+      birthdate: DataTypes.DATE,
       bio: DataTypes.STRING,
       createdAt: {
         allowNull: false,
