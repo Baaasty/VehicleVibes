@@ -5,19 +5,19 @@
         <label for="username">Username</label>
         <div class="input-container">
           <Field id="username" name="username" type="text" autocomplete="off" />
-          <ErrorMessage name="username" class="error-message tiny" />
+          <ErrorMessage name="username" class="error-message" />
         </div>
 
         <label for="email">Email</label>
         <div class="input-container">
           <Field id="email" name="email" type="text" autocomplete="off" />
-          <ErrorMessage name="email" class="error-message tiny" />
+          <ErrorMessage name="email" class="error-message" />
         </div>
 
         <label for="password">Password</label>
         <div class="input-container">
           <Field id="password" name="password" type="password" autocomplete="off" />
-          <ErrorMessage name="password" class="error-message tiny" />
+          <ErrorMessage name="password" class="error-message" />
         </div>
 
         <button type="submit" :disabled="loading">Register</button>
@@ -177,7 +177,6 @@ const startCountdown = (email) => {
   }
 }
 
-/* Adjustments for small screens */
 @media screen and (max-width: 600px) {
   .register-form {
     max-width: none;

@@ -3,13 +3,13 @@
     <label for="username">Username</label>
     <div class="input-container">
       <Field id="username" name="username" type="text" autocomplete="off" />
-      <ErrorMessage name="username" class="error-message tiny" />
+      <ErrorMessage name="username" class="error-message" />
     </div>
 
     <label for="password">Password</label>
     <div class="input-container">
       <Field id="password" name="password" type="password" autocomplete="off" />
-      <ErrorMessage name="password" class="error-message tiny" />
+      <ErrorMessage name="password" class="error-message" />
     </div>
 
     <button type="submit" :disabled="loading">Login</button>
@@ -84,12 +84,12 @@ const handleLogin = (user) => {
       padding: 8px;
       margin: 10px 0 0;
       box-sizing: border-box;
-      border: 1px solid #ccc; /* Softer border color */
+      border: 1px solid #ccc;
       border-radius: 4px;
     }
 
     .error-message {
-      color: #e44d4d; /* Softer error message color */
+      color: #e44d4d;
       font-size: 80%;
       position: absolute;
       bottom: 0;
@@ -109,7 +109,7 @@ const handleLogin = (user) => {
   }
 
   button:disabled {
-    background-color: #ccc; /* Softer disabled button color */
+    background-color: #ccc;
     cursor: not-allowed;
   }
 
@@ -119,7 +119,6 @@ const handleLogin = (user) => {
   }
 }
 
-/* Adjustments for small screens */
 @media screen and (max-width: 600px) {
   .login-form {
     max-width: none;

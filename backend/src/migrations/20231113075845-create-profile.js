@@ -9,7 +9,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       firstname: DataTypes.STRING,
-      birthdate: DataTypes.DATE,
+      birthdate: DataTypes.DATEONLY,
       bio: DataTypes.STRING,
       createdAt: {
         allowNull: false,

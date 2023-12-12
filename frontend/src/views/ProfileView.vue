@@ -14,7 +14,7 @@
               type="text"
               autocomplete="off"
             />
-            <p v-if="errors.firstname" name="firstname" class="error-message tiny">{{ errors.firstname }}</p>
+            <p v-if="errors.firstname" name="firstname" class="error-message">{{ errors.firstname }}</p>
           </div>
         </div>
 
@@ -29,7 +29,7 @@
               type="date"
               autocomplete="off"
             />
-            <p v-if="errors.birthdate" name="birthdate" class="error-message tiny">{{ errors.birthdate }}</p>
+            <p v-if="errors.birthdate" name="birthdate" class="error-message">{{ errors.birthdate }}</p>
           </div>
         </div>
       </div>
@@ -47,27 +47,33 @@
             autocomplete="off"
           >
           </textarea>
-          <p v-if="errors.bio" name="bio" class="error-message tiny">{{ errors.bio }}</p>
+          <p v-if="errors.bio" name="bio" class="error-message">{{ errors.bio }}</p>
         </div>
       </div>
 
       <button type="submit" :disabled="loading">Save</button>
 
-      <p v-if="message" class="error-message">{{ message }}</p>
+      <p v-if="message" :class="successful ? 'success-message' : 'error-message'">{{ message }}</p>
     </form>
   </div>
-
-  <h1>{{ values }}</h1>
-  <h1>{{ errors }}</h1>
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { ref, onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import ProfileService from '../services/profile.service';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-const { values, errors, handleSubmit, defineField } = useForm({
+const router = useRouter();
+const store = useStore();
+
+const loading = ref(false);
+const successful = ref(false);
+const message = ref('');
+
+const { errors, handleSubmit, defineField } = useForm({
   validationSchema: yup.object({
     firstname: yup
       .string()
@@ -93,31 +99,52 @@ const [birthdate, birthdateValue] = defineField('birthdate', {
 const [bio, bioValue] = defineField('bio');
 
 const loadProfile = async () => {
+  loading.value = true;
+
   ProfileService.getProfile().then(
     (res) => {
-      console.log(res.data);
       firstname.value = res.data.firstname;
       birthdate.value = res.data.birthdate;
-      bio.value = res.data.bio;
+      bio.value = !res.data.bio ? '' : res.data.bio;
+      loading.value = false;
+      successful.value = false;
     },
     (err) => {
-      console.error('Error loading profile:', err);
+      if (err.response && err.response.status === 401) logout();
+
+      message.value = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+      loading.value = false;
+      successful.value = false;
     }
   );
 };
 
 const saveProfile = handleSubmit((values) => {
-  console.log(values);
+  loading.value = true;
 
   ProfileService.saveProfile(values).then(
     (res) => {
-      console.log(res.data);
+      firstname.value = res.data.firstname;
+      birthdate.value = res.data.birthdate;
+      bio.value = !res.data.bio ? '' : res.data.bio;
+      message.value = 'Profile edited successfully!';
+      loading.value = false;
+      successful.value = true;
     },
     (err) => {
-      console.error('Error updating profile:', err);
+      if (err.response && err.response.status === 401) logout();
+
+      message.value = (err.response && err.response.data && err.response.data.message) || err.message || err.toString();
+      loading.value = false;
+      successful.value = false;
     }
   );
 });
+
+const logout = () => {
+  store.dispatch('auth/logout');
+  router.push('/login');
+};
 
 onBeforeMount(() => {
   loadProfile();
@@ -158,7 +185,7 @@ onBeforeMount(() => {
         width: 100%;
         padding: 8px;
         box-sizing: border-box;
-        border: 1px solid #ccc; /* Softer border color */
+        border: 1px solid #ccc;
         border-radius: 4px;
       }
 
@@ -170,8 +197,8 @@ onBeforeMount(() => {
 
       .error-message {
         color: #e44d4d;
-        font-size: 80%;
         position: absolute;
+        font-size: 80%;
         margin: 0;
         bottom: 0;
         transform: translateY(100%);
@@ -196,14 +223,23 @@ onBeforeMount(() => {
       background-color: #ccc;
       cursor: not-allowed;
     }
+
+    .error-message {
+      color: #e44d4d;
+      margin: 15px 0 0;
+    }
+
+    .success-message {
+      color: #4caf50;
+      margin: 15px 0 0;
+    }
   }
 
-  // Media query for smaller screens
   @media screen and (max-width: 500px) {
     form {
       label {
         textarea {
-          height: 100px; /* Adjust the height for smaller screens */
+          height: 100px;
         }
       }
     }

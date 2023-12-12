@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Profile.init(
     {
       firstname: DataTypes.STRING,
-      birthdate: DataTypes.DATE,
+      birthdate: DataTypes.DATEONLY,
       bio: DataTypes.STRING,
     },
     {
